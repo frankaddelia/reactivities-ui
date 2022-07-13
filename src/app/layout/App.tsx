@@ -42,6 +42,9 @@ function App() {
             selectedActivity={selectedActivity}
             selectActivity={handleSelectActivity}
             cancelSelectActivity={handleCancelSelectActivity}
+            editMode={editMode}
+            openForm={handleFormOpen}
+            closeForm={handleFormClose}
           />
         </Container>
     </>
