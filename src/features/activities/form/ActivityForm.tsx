@@ -17,7 +17,7 @@ export default function ActivityForm({activity, closeForm}: Props) {
         <Form.Input placeholder="City" />
         <Form.Input placeholder="Venue" />
         <Button floated="right" positive type="submit" content="Submit" />
-        <Button floated="right" type="button" content="Cancel" />
+        <Button floated="right" type="button" content="Cancel" onClick={closeForm} />
       </Form>
     </Segment>
   )
