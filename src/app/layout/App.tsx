@@ -35,7 +35,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
         <Container style={{marginTop: '7em'}}>
           <ActivityDashboard
             activities={activities}
