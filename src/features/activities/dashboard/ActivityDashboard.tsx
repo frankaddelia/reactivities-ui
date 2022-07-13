@@ -37,9 +37,12 @@ export default function ActivityDashboard({
           <ActivityDetails
             activity={selectedActivity}
             cancelSelectActivity={cancelSelectActivity}
+            openForm={openForm}
           />
           }
-          <ActivityForm></ActivityForm>
+          {editMode && 
+            <ActivityForm closeForm={closeForm} activity={selectedActivity} />
+          }
         </Grid.Column>
     </Grid>
   )
