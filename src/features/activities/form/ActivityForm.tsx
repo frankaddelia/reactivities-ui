@@ -7,7 +7,6 @@ export default observer (function ActivityForm() {
   const { activityStore } = useStore();
   const {
     selectedActivity,
-    closeForm,
     createActivity,
     updateActivity,
     loading
@@ -77,7 +76,7 @@ export default observer (function ActivityForm() {
           onChange={handleInputChange}
         />
         <Button floated="right" positive type="submit" loading={loading} content="Submit" onChange={handleInputChange} />
-        <Button floated="right" type="button" content="Cancel" onClick={closeForm} onChange={handleInputChange} />
+        <Button floated="right" type="button" content="Cancel" onChange={handleInputChange} />
       </Form>
     </Segment>
   )
