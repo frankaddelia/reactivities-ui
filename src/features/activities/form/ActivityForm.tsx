@@ -1,19 +1,21 @@
 import { observer } from 'mobx-react-lite';
 import { loadavg } from 'os';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import LoadingComponents from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/Store';
 
 export default observer (function ActivityForm() {
+  const navigate = useNavigate();
   const { activityStore } = useStore();
   const {
     createActivity,
     updateActivity,
     loading,
     loadActivity,
-    loadingInitial
+    loadingInitial,
+    createUuid
   } = activityStore;
 
   const {id} = useParams<{id: string}>();
@@ -35,7 +37,16 @@ export default observer (function ActivityForm() {
   }, [id, loadActivity]);
 
   function handleSubmit() {
-    activity.id ? updateActivity(activity) : createActivity(activity);
+    if (activity.id.length === 0) {
+      let newActivity = {
+        ...activity,
+        id: createUuid()
+      };
+
+      createActivity(newActivity).then(() => navigate(`/activities/${newActivity.id}`))
+    } else {
+      updateActivity(activity).then(() => navigate(`/activities/${activity.id}`))
+    }
   }
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {

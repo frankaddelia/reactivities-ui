@@ -78,7 +78,6 @@ export default class ActivityStore {
 
   createActivity = async (activity: Activity) => {
     this.loading = true;
-    activity.id = uuid();
     
     try {
       await agent.Activities.create(activity);
@@ -136,5 +135,9 @@ export default class ActivityStore {
         this.loading = false;
       });
     }
+  }
+
+  createUuid = () => {
+    return uuid();
   }
 }
