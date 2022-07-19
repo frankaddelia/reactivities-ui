@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Activity } from "../models/activity";
-import { v4 as uuid } from 'uuid';
 
 export default class ActivityStore {
   activityRegistry = new Map<string, Activity>();
@@ -135,9 +134,5 @@ export default class ActivityStore {
         this.loading = false;
       });
     }
-  }
-
-  createUuid = () => {
-    return uuid();
   }
 }

@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import LoadingComponents from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/Store';
+import { v4 as uuid } from 'uuid';
 
 export default observer (function ActivityForm() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ export default observer (function ActivityForm() {
     loading,
     loadActivity,
     loadingInitial,
-    createUuid
   } = activityStore;
 
   const {id} = useParams<{id: string}>();
@@ -40,7 +40,7 @@ export default observer (function ActivityForm() {
     if (activity.id.length === 0) {
       let newActivity = {
         ...activity,
-        id: createUuid()
+        id: uuid()
       };
 
       createActivity(newActivity).then(() => navigate(`/activities/${newActivity.id}`))
