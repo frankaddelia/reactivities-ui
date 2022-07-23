@@ -13,16 +13,18 @@ function App() {
 
   return (
     <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+      <Container style={{marginTop: '7em'}}>
       <NavBar />
-        <Container style={{marginTop: '7em'}}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/activities" element={<ActivityDashboard />} />
-            <Route path="/activities/:id" element={<ActivityDetails />} />
-            <Route key={location.key} path="/createActivity" element={<ActivityForm />} />
-            <Route key={location.key} path="/manage/:id" element={<ActivityForm />} />
-          </Routes>
-        </Container>
+        <Routes>
+          <Route path="/activities" element={<ActivityDashboard />} />
+          <Route path="/activities/:id" element={<ActivityDetails />} />
+          <Route key={location.key} path="/createActivity" element={<ActivityForm />} />
+          <Route key={location.key} path="/manage/:id" element={<ActivityForm />} />
+        </Routes>
+      </Container>
     </>
   );
 }
