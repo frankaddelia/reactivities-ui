@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { loadavg } from 'os';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import LoadingComponents from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/Store';
 import { v4 as uuid } from 'uuid';
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
 export default observer (function ActivityForm() {
   const navigate = useNavigate();
@@ -64,47 +64,36 @@ export default observer (function ActivityForm() {
 
   return (
     <Segment clearing>
-      <Formik initialValues={activity} onSubmit={values => console.log(values)}>
-        {({values: activity, handleChange, handleSubmit}) => (
-          <Form onSubmit={handleSubmit} autoComplete="off">
-            <Form.Input
+      <Formik enableReinitialize initialValues={activity} onSubmit={values => console.log(values)}>
+        {({handleSubmit}) => (
+          <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+            <Field
               name="title"
-              value={activity.title}
               placeholder="Title"
-              onChange={handleChange}
             />
-            <Form.TextArea placeholder="Description"
+            <Field
+              placeholder="Description"
               name="description"
-              value={activity.description}
-              onChange={handleChange}
             />
-            <Form.Input
+            <Field
               name="category"
-              value={activity.category}
               placeholder="Category"
-              onChange={handleChange}
             />
-            <Form.Input
+            <Field
               type="date"
               name="date"
-              value={activity.date}
               placeholder="Date"
-              onChange={handleChange}
             />
-            <Form.Input
+            <Field
               name="city"
-              value={activity.city}
               placeholder="City"
-              onChange={handleChange}
             />
-            <Form.Input
+            <Field
               name="venue"
-              value={activity.venue}
               placeholder="Venue"
-              onChange={handleChange}
             />
-            <Button floated="right" positive type="submit" loading={loading} content="Submit" onChange={handleChange} />
-            <Button as={Link} to="/activities" floated="right" type="button" content="Cancel" onChange={handleChange} />
+            <Button floated="right" positive type="submit" loading={loading} content="Submit" />
+            <Button as={Link} to="/activities" floated="right" type="button" content="Cancel" />
           </Form>
         )}
       </Formik>
