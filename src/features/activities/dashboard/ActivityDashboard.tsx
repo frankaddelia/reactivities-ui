@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import react, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponents from '../../../app/layout/LoadingComponents';
 import { useStore } from '../../../app/stores/Store';
@@ -12,7 +12,7 @@ export default observer(function ActivityDashboard() {
 
   useEffect(() => {
     if (activityRegistry.size <= 1) loadActivities();
-  }, [activityRegistry.size]);
+  }, [activityRegistry.size, loadActivities]);
 
   if (activityStore.loadingInitial) {
      return <LoadingComponents content="Loading app" />
