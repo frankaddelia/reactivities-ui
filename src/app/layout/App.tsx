@@ -40,7 +40,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
       </Routes>
       <Container style={{marginTop: '7em'}}>
-      <NavBar />
+      {!!userStore.isLoggedIn && <NavBar />}
         <Routes>
           <Route path="/activities" element={<ActivityDashboard />} />
           <Route path="/activities/:id" element={<ActivityDetails />} />
