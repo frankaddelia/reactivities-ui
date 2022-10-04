@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { Button, Card, Grid, Header, Image, Tab } from "semantic-ui-react";
+import PhotoUploadWidget from "../../app/common/imageUpload/PhotoUploadWidget";
 import { Profile } from "../../app/models/profile";
 import { useStore } from "../../app/stores/Store";
 
@@ -30,7 +31,7 @@ export default observer(function ProfilePhotos({profile}: Props) {
           {
             addPhotoMode ?
             (
-              <p>Photo widget goes here</p>
+              <PhotoUploadWidget />
             )
             :
             (
