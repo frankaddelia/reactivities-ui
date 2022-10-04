@@ -10,8 +10,12 @@ interface Props {
 }
 
 export default observer(function ProfilePhotos({profile}: Props) {
-  const { profileStore: {isCurrentUser} } = useStore();
+  const { profileStore: { isCurrentUser, uploadPhoto, uploading } } = useStore();
   const [addPhotoMode, setAddPhotoMode] = useState(false);
+
+  function handlePhotoUpload(file: Blob) {
+    uploadPhoto(file).then(() => setAddPhotoMode(false));
+  }
 
   return (
     <Tab.Pane>
@@ -31,7 +35,10 @@ export default observer(function ProfilePhotos({profile}: Props) {
           {
             addPhotoMode ?
             (
-              <PhotoUploadWidget />
+              <PhotoUploadWidget
+                uploadPhoto={handlePhotoUpload}
+                loading={uploading}
+              />
             )
             :
             (
