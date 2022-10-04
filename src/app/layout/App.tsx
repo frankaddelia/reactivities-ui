@@ -15,6 +15,7 @@ import LoginForm from '../../features/users/LoginForm';
 import { useStore } from '../stores/Store';
 import LoadingComponents from './LoadingComponents';
 import ModalContainer from '../common/modals/ModalContainer';
+import ProfilePage from '../../features/profiles/ProfilePage';
 
 function App() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
           <Route path="/activities/:id" element={<ActivityDetails />} />
           <Route key={location.key} path="/createActivity" element={<ActivityForm />} />
           <Route key={location.key} path="/manage/:id" element={<ActivityForm />} />
+          <Route path="/profiles/:username" element={<ProfilePage />} />
           <Route path="/errors" element={<TestErrors />} />
           <Route path="/server-error" element={<ServerError />} />
           <Route path="/login" element={<LoginForm />} />
