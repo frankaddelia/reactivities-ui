@@ -97,7 +97,8 @@ const Profiles = {
 
 const agent = {
   Activities,
-  Account
+  Account,
+  Profiles
 }
 
 export default agent;
