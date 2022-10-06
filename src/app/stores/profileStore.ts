@@ -4,6 +4,7 @@ import { Photo, Profile } from "../models/profile";
 import { store } from "./Store";
 
 export default class ProfileStore {
+  profileRegistry = new Map<string, Profile>();
   profile: Profile | null = null;
   loadingProfile = false;
   uploading = false;
@@ -117,5 +118,9 @@ export default class ProfileStore {
       console.error(error);
       runInAction(() => this.loading = false);
     }
+  }
+
+  private getProfile = (username: string) => {
+    return this.profileRegistry.get(username);
   }
 }
