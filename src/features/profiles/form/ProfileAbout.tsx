@@ -38,9 +38,9 @@ export default function ProfileAbout({ profile }: Props) {
           </Grid.Column>
         )}
         {!isEditing && (
-          <Tab.Pane>
+          <p>
             {profile.bio}
-          </Tab.Pane>
+          </p>
         )}
       </Grid>
     </Tab.Pane>
