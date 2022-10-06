@@ -1,18 +1,31 @@
-import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 import { Button, Grid, Header, Tab } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
+import profileStore from "../../app/stores/profileStore";
+import { useStore } from "../../app/stores/Store";
 import ProfileEditForm from "./form/ProfileEditForm";
 
 interface Props {
   profile: Profile;
 }
 
-export default function ProfileAbout({ profile }: Props) {
+export default observer(function ProfileAbout({ profile }: Props) {
+  const { profileStore } = useStore();
+  const { profileRegistry } = profileStore;
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentProfile, setCurrentProfile] = useState<Profile>(profile);
 
   function toggleEditing() {
     setIsEditing(!isEditing);
   }
+
+  useEffect(() => {
+    const currentUser = profileRegistry.get(profile.username);
+    if (profile && currentUser) {
+      setCurrentProfile(currentUser);
+    }
+  }, [profile, profile.username, profileRegistry]);
 
   return (
     <Tab.Pane>
@@ -39,10 +52,10 @@ export default function ProfileAbout({ profile }: Props) {
         )}
         {!isEditing && (
           <p>
-            {profile.bio}
+            {currentProfile.bio}
           </p>
         )}
       </Grid>
     </Tab.Pane>
   );
-}
+});
