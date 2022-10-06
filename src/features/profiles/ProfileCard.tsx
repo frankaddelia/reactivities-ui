@@ -8,6 +8,16 @@ interface Props {
 }
 
 export default observer( function ProfileCard({profile}: Props) {
+  function truncateText (
+      text: string,
+      startingIndex = 0,
+      endingIndex = 37,
+      maxLength = 40,
+      truncationText = '...'
+    ) {
+    return text.length > maxLength ? text.slice(startingIndex, endingIndex) + truncationText : text;
+  }
+
   return (
     <Card as={Link} to={`/profiles/${profile.username}`}>
       <Image src={profile.image || '/assets/user.png'} />
@@ -16,7 +26,7 @@ export default observer( function ProfileCard({profile}: Props) {
           {profile.displayName}
         </Card.Header>
         <Card.Description>
-          Bio goes here
+          {profile.bio && truncateText(profile.bio)}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>

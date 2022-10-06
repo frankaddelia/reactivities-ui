@@ -4,6 +4,7 @@ import { Photo, Profile } from "../models/profile";
 import { store } from "./Store";
 
 export default class ProfileStore {
+  profileRegistry = new Map<string, Profile>();
   profile: Profile | null = null;
   loadingProfile = false;
   uploading = false;
@@ -30,6 +31,26 @@ export default class ProfileStore {
         this.profile = profile;
         this.loadingProfile = false;
       })
+    } catch (error) {
+      console.error(error);
+      runInAction(() => this.loadingProfile = false);
+    }
+  }
+
+  updateProfile = async (profile: Profile) => {
+    this.loadingProfile = true;
+
+    try {
+      if (store.userStore.user) {
+        await agent.Profiles.update(profile);
+
+        runInAction(() => {
+          let updatedProfile = { ...this.getProfile(profile.username), ...profile };
+          this.profileRegistry.set(profile.username, updatedProfile as Profile);
+          store.userStore.setDisplayName(profile.displayName);
+          this.loadingProfile = false;
+        });
+      }
     } catch (error) {
       console.error(error);
       runInAction(() => this.loadingProfile = false);
@@ -97,5 +118,9 @@ export default class ProfileStore {
       console.error(error);
       runInAction(() => this.loading = false);
     }
+  }
+
+  private getProfile = (username: string) => {
+    return this.profileRegistry.get(username);
   }
 }

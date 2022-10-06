@@ -9,14 +9,14 @@ import ProfileHeader from "./ProfileHeader";
 
 export default observer(function ProfilePage() {
   const {username} = useParams<{username: string}>();
-  const {profileStore} = useStore();
+  const {profileStore, userStore} = useStore();
   const {loadingProfile, loadProfile, profile} = profileStore;
 
   useEffect(() => {
     if (username) {
       loadProfile(username);
     }
-  }, [loadProfile, username]);
+  }, [loadProfile, username, userStore.user?.displayName]);
 
   if (loadingProfile) {
     return <LoadingComponents content='Loading profile...' />
@@ -34,4 +34,4 @@ export default observer(function ProfilePage() {
       </Grid.Column>
     </Grid>
   )
-})
+});
