@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Tab } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
-import ProfileAbout from "./form/ProfileAbout";
+import ProfileAbout from "./ProfileAbout";
 import ProfilePhotos from "./ProfilePhotos";
 
 interface Props {
