@@ -17,13 +17,6 @@ export default observer(function ProfileEditForm({ profile }: Props) {
   const { updateProfile, profileRegistry } = profileStore;
   const [currentProfile, setCurrentProfile] = useState<Profile>(profile);
 
-  useEffect(() => {
-    const currentUser = profileRegistry.get(profile.username);
-    if (profile && currentUser) {
-      setCurrentProfile(currentUser);
-    }
-  }, [profile, profile.username, profileRegistry]);
-
   const validationSchema = Yup.object({
     displayName: Yup.string().required("The display name is required"),
     bio: Yup.string()
@@ -32,6 +25,13 @@ export default observer(function ProfileEditForm({ profile }: Props) {
   function handleFormSubmit(profile: EditProfileFormValues) {
     updateProfile(profile);
   }
+
+  useEffect(() => {
+    const currentUser = profileRegistry.get(profile.username);
+    if (profile && currentUser) {
+      setCurrentProfile(currentUser);
+    }
+  }, [profile, profile.username, profileRegistry]);
 
   return (
     <Formik
