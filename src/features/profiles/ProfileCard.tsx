@@ -16,7 +16,7 @@ export default observer( function ProfileCard({profile}: Props) {
           {profile.displayName}
         </Card.Header>
         <Card.Description>
-          Bio goes here
+          {profile.bio && profile.bio?.length > 40 ? profile.bio?.slice(0, 37) + '...' : profile.bio}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
