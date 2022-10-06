@@ -51,7 +51,7 @@ export default observer(function ProfileAbout({ profile }: Props) {
           </Grid.Column>
         )}
         {!isEditing && (
-          <p>
+          <p style={{marginBottom: '15px', whiteSpace: 'pre-wrap'}}>
             {currentProfile.bio}
           </p>
         )}
