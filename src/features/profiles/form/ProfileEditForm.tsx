@@ -6,12 +6,13 @@ import MyTextInput from "../../../app/common/form/MyTextInput";
 import { EditProfileFormValues, Profile } from "../../../app/models/profile";
 import { useStore } from "../../../app/stores/Store";
 import * as Yup from "yup";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   profile: Profile;
 }
 
-export default function ProfileEditForm({ profile }: Props) {
+export default observer(function ProfileEditForm({ profile }: Props) {
   const { profileStore } = useStore();
   const { updateProfile, profileRegistry } = profileStore;
   const [currentProfile, setCurrentProfile] = useState<Profile>(profile);
@@ -59,4 +60,4 @@ export default function ProfileEditForm({ profile }: Props) {
       )}
     </Formik>
   )
-}
+})
