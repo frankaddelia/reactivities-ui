@@ -1,8 +1,28 @@
+import { Formik, Form } from 'formik';
 import { observer } from 'mobx-react-lite'
-import React from 'react'
-import {Segment, Header, Comment, Form, Button} from 'semantic-ui-react'
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom';
+import {Segment, Header, Comment, Button} from 'semantic-ui-react'
+import MyTextArea from '../../../app/common/form/MyTextArea';
+import { useStore } from '../../../app/stores/Store';
 
-export default observer(function ActivityDetailedChat() {
+interface Props {
+  activityId: string;
+}
+
+export default observer(function ActivityDetailedChat({activityId}: Props) {
+  const {commentStore} = useStore();
+
+  useEffect(() => {
+    if (activityId) {
+      commentStore.createHubConnection(activityId);
+    }
+
+    return () => {
+      commentStore.clearComments();
+    }
+  }, [commentStore, activityId]);
+
   return (
     <>
       <Segment
@@ -12,47 +32,50 @@ export default observer(function ActivityDetailedChat() {
         color='teal'
         style={{border: 'none'}}
       >
-      <Header>Chat about this event</Header>
+        <Header>Chat about this event</Header>
       </Segment>
-      <Segment attached>
+      <Segment attached clearing>
         <Comment.Group>
-          <Comment>
-            <Comment.Avatar src='/assets/user.png'/>
-            <Comment.Content>
-              <Comment.Author as='a'>Matt</Comment.Author>
-              <Comment.Metadata>
-                <div>Today at 5:42PM</div>
-              </Comment.Metadata>
-              <Comment.Text>How artistic!</Comment.Text>
-              <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
+          <>
+            {commentStore.comments.map(comment => {
+              <Comment key={comment.id}>
+                <Comment.Avatar src={comment.image || '/assets/user.png'}/>
+                <Comment.Content>
+                  <Comment.Author
+                    as={Link}
+                    to={`/profiles/${comment.username}`}
+                  >
+                    {comment.displayName}
+                  </Comment.Author>
+                  <Comment.Metadata>
+                    <div>{comment.createdAt.toString()}</div>
+                  </Comment.Metadata>
+                  <Comment.Text>{comment.body}</Comment.Text>
+                </Comment.Content>
+              </Comment>
+            })}
 
-          <Comment>
-            <Comment.Avatar src='/assets/user.png'/>
-            <Comment.Content>
-              <Comment.Author as='a'>Joe Henderson</Comment.Author>
-              <Comment.Metadata>
-                <div>5 days ago</div>
-              </Comment.Metadata>
-              <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-              <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
-
-          <Form reply>
-            <Form.TextArea/>
-            <Button
-              content='Add Reply'
-              labelPosition='left'
-              icon='edit'
-              primary
-            />
-          </Form>
+            <Formik
+              onSubmit={(values, {resetForm}) => commentStore.addComment(values).then(() => resetForm())}
+              initialValues={{body: ''}}
+            >
+              {({isSubmitting, isValid}) => (
+                <Form className='ui form'>
+                  <MyTextArea placeholder='Add comment' name='body' rows={2} />
+                  <Button
+                    content='Add Reply'
+                    disabled={isSubmitting || !isValid}
+                    floated='right'
+                    icon='edit'
+                    labelPosition='left'
+                    loading={isSubmitting}
+                    primary
+                    type='submit'
+                  />
+                </Form>
+              )}
+            </Formik>
+          </>
         </Comment.Group>
       </Segment>
     </>
