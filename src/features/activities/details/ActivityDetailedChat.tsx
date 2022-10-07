@@ -35,9 +35,28 @@ export default observer(function ActivityDetailedChat({activityId}: Props) {
         <Header>Chat about this event</Header>
       </Segment>
       <Segment attached clearing>
+        <Formik
+          onSubmit={(values, {resetForm}) => commentStore.addComment(values).then(() => resetForm())}
+          initialValues={{body: ''}}
+        >
+          {({isSubmitting, isValid}) => (
+            <Form className='ui form'>
+              <MyTextArea placeholder='Add comment' name='body' rows={2} />
+              <Button
+                content='Add Reply'
+                disabled={isSubmitting || !isValid}
+                floated='right'
+                icon='edit'
+                labelPosition='left'
+                loading={isSubmitting}
+                primary
+                type='submit'
+              />
+            </Form>
+          )}
+        </Formik>
         <Comment.Group>
-          <>
-            {commentStore.comments.map(comment => {
+            {commentStore.comments.map(comment => (
               <Comment key={comment.id}>
                 <Comment.Avatar src={comment.image || '/assets/user.png'}/>
                 <Comment.Content>
@@ -53,29 +72,7 @@ export default observer(function ActivityDetailedChat({activityId}: Props) {
                   <Comment.Text>{comment.body}</Comment.Text>
                 </Comment.Content>
               </Comment>
-            })}
-
-            <Formik
-              onSubmit={(values, {resetForm}) => commentStore.addComment(values).then(() => resetForm())}
-              initialValues={{body: ''}}
-            >
-              {({isSubmitting, isValid}) => (
-                <Form className='ui form'>
-                  <MyTextArea placeholder='Add comment' name='body' rows={2} />
-                  <Button
-                    content='Add Reply'
-                    disabled={isSubmitting || !isValid}
-                    floated='right'
-                    icon='edit'
-                    labelPosition='left'
-                    loading={isSubmitting}
-                    primary
-                    type='submit'
-                  />
-                </Form>
-              )}
-            </Formik>
-          </>
+            ))}
         </Comment.Group>
       </Segment>
     </>
