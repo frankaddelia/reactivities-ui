@@ -20,7 +20,7 @@ export default observer(function ProfilePage() {
     return () => {
       setActiveTab(0);
     }
-  }, [loadProfile, username, userStore.user?.displayName]);
+  }, [loadProfile, username, userStore.user?.displayName, setActiveTab]);
 
   if (loadingProfile) {
     return <LoadingComponents content='Loading profile...' />
