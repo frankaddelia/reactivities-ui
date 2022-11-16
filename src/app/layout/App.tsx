@@ -16,6 +16,7 @@ import { useStore } from '../stores/Store';
 import LoadingComponents from './LoadingComponents';
 import ModalContainer from '../common/modals/ModalContainer';
 import ProfilePage from '../../features/profiles/ProfilePage';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const location = useLocation();
@@ -43,12 +44,36 @@ function App() {
       <Container style={{marginTop: '7em'}}>
       {!!userStore.isLoggedIn && <NavBar />}
         <Routes>
-          <Route path="/activities" element={<ActivityDashboard />} />
-          <Route path="/activities/:id" element={<ActivityDetails />} />
-          <Route key={location.key} path="/createActivity" element={<ActivityForm />} />
-          <Route key={location.key} path="/manage/:id" element={<ActivityForm />} />
-          <Route path="/profiles/:username" element={<ProfilePage />} />
-          <Route path="/errors" element={<TestErrors />} />
+          <Route path="/activities" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <ActivityDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/activities/:id" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <ActivityDetails />
+            </ProtectedRoute>
+          } />
+          <Route key={location.key} path="/createActivity" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <ActivityForm />
+            </ProtectedRoute>
+          } />
+          <Route key={location.key} path="/manage/:id" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <ActivityForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/profiles/:username" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/errors" element={
+            <ProtectedRoute user={userStore.isLoggedIn}>
+              <TestErrors />
+            </ProtectedRoute>
+          } />
           <Route path="/server-error" element={<ServerError />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="*" element={<NotFound />} />
