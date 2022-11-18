@@ -1,4 +1,4 @@
-import { Navigate, Route, RouteProps, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface Props {
   user: any;

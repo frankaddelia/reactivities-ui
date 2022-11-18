@@ -1,6 +1,4 @@
 import { makeAutoObservable } from "mobx"
-import { JsxEmit } from "typescript";
-import { boolean } from "yup"
 
 interface Modal {
   open: boolean;
