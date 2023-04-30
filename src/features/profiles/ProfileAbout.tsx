@@ -22,7 +22,7 @@ export default observer(function ProfileAbout() {
         setProfile(currentUser);
       }
     }
-  }, [profileRegistry]);
+  }, [profileRegistry, profile?.username]);
 
   return (
     <Tab.Pane>

@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Form, Tab } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import { EditProfileFormValues, Profile } from "../../../app/models/profile";
