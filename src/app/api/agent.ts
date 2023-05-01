@@ -1,11 +1,11 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { history } from '../..';
 import { Activity, ActivityFormValues } from '../models/activity';
 import { PaginatedResult } from '../models/pagination';
 import { Photo, Profile, UserActivity } from '../models/profile';
 import { User, UserFormValues } from '../models/user';
 import { store } from '../stores/Store';
+import { router } from '../router/Routes';
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
@@ -15,7 +15,7 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config: { headers: { Authorization: string; }; }) => {
   const token = store.commonStore.token;
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +24,7 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
-axios.interceptors.response.use(async response => {
+axios.interceptors.response.use(async (response: { headers: { [x: string]: any; }; data: PaginatedResult<any>; }) => {
   if (process.env.NODE_ENV === 'development') {
     await sleep(1000);
   }
@@ -37,7 +37,7 @@ axios.interceptors.response.use(async response => {
 
   return response;
 }, (error: AxiosError) => {
-  const {data:d, status, config} = error.response!;
+  const {data:d, status, config} = error.response as AxiosResponse;
   let data: any = d!;
 
   switch (status) {
@@ -47,7 +47,7 @@ axios.interceptors.response.use(async response => {
       }
 
       if (config.method === "get" && data.errors.hasOwnProperty("id")) {
-        history.push('/not-found');
+        router.navigate('/not-found');
       }
 
       if (data.errors) {
@@ -66,11 +66,11 @@ axios.interceptors.response.use(async response => {
       toast.error("Unauthorized");
       break;
     case 404:
-      history.push('/not-found');
+      router.navigate('/not-found');
       break;
       case 500:
       store.commonStore.setServerError(data);
-      history.push('/server-error');
+      router.navigate('/server-error');
       break;
   }
 
