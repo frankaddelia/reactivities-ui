@@ -15,7 +15,7 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-axios.interceptors.request.use((config: { headers: { Authorization: string; }; }) => {
+axios.interceptors.request.use((config: any) => {
   const token = store.commonStore.token;
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +24,7 @@ axios.interceptors.request.use((config: { headers: { Authorization: string; }; }
   return config;
 });
 
-axios.interceptors.response.use(async (response: { headers: { [x: string]: any; }; data: PaginatedResult<any>; }) => {
+axios.interceptors.response.use(async (response: any) => {
   if (process.env.NODE_ENV === 'development') {
     await sleep(1000);
   }
